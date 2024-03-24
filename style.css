@@ -1,0 +1,55 @@
+body {
+  background-color: black;
+  display: inline;
+}
+h1 {
+  color: bisque;
+}
+.top-header {
+  display: flex;
+  color: bisque;
+}
+
+.coin-div-info {
+  padding: 5px;
+  margin: 5px;
+  border: double 2px black;
+  height: 110px;
+  width: 100px;
+  border-radius: 2px;
+  align-content: center;
+  background-color: rgba(250, 235, 215, 0.65);
+  position: relative;
+}
+
+#display-area {
+  display: flex;
+  flex-wrap: wrap;
+}
+.parallax {
+  /* The image used */
+  background-image: url("https://fstarcapital.com/wp-content/uploads/2021/06/btc-6272691_1920.jpg");
+
+  /* Set a specific height */
+  min-height: 200px;
+
+  /* Create the parallax scrolling effect */
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.more-info-btn {
+  background-color: chocolate;
+  border-radius: 5px;
+  position: absolute;
+  bottom: 5px;
+  left: 2px;
+}
+.toggle-switch-btn {
+  position: absolute;
+  bottom: 5px;
+  right: 2px;
+  background-color: blueviolet;
+}
