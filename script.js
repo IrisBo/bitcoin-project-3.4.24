@@ -56,7 +56,8 @@ function createCoinCard(coinArray, parameter) {
     moreInfoButton.innerHTML = "more info";
     divDisplay.appendChild(moreInfoButton);
     moreInfoButton.addEventListener("click", function () {
-      console.log(index);
+      //   console.log(index);
+
       let moreCoinInfo = getMoreCoinInfo(index);
       console.log(moreCoinInfo);
     });
@@ -94,9 +95,9 @@ async function getMoreCoinInfo(coinId) {
 }
 // getMoreCoinInfo("0xaiswap")
 
-function addEventListenerToButton(id) {
-  let newbutton = document.querySelector("." + id);
-  newbutton.addEventListener("click", function () {
-    console.log(id);
-  });
-}
+// function addEventListenerToButton(id) {
+//   let newbutton = document.querySelector("." + id);
+//   newbutton.addEventListener("click", function () {
+//     console.log(id);
+//   });
+// }
