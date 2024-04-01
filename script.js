@@ -12,18 +12,20 @@ async function getAllCoinsData() {
   return allCoinsData.slice(0, 100);
 }
 
-async function testing() {
-  allCoinsArray = await getAllCoinsData();
-  keepCoinDataLocalStorage(allCoinsArray);
+document.addEventListener("DOMContentLoaded", async function () {
+  allCoinsArray = getCoinsDataFromStorage();
+  if (!allCoinsArray.length) {
+    allCoinsArray = await getAllCoinsData();
+    keepCoinDataLocalStorage(allCoinsArray);
+  }
 
-  //   console.log(allCoinsArray);
+  // console.log(allCoinsArray);
 
-  allCoinsArrayFromStorage = getCoinsDataFromStorage();
+  // allCoinsArrayFromStorage = getCoinsDataFromStorage();לא צריך
 
-  createCoinCard(allCoinsArrayFromStorage, myDisplayArea);
-}
+  createCoinCard(allCoinsArray, myDisplayArea);
+});
 
-testing();
 
 function keepCoinDataLocalStorage(array) {
   const myCoinsToString = JSON.stringify(array);
@@ -40,13 +42,16 @@ function createCoinCard(coinArray, parameter) {
   coinArray.forEach((obj) => {
     let divDisplay = document.createElement("div");
     divDisplay.classList.add("coin-div-info");
+    let divDisplayMoreInfoCoin = document.createElement("div");
+    divDisplayMoreInfoCoin.classList.add("coin-more-info-display");
 
     for (const key in obj) {
       if (key !== "id") {
         const coinData = document.createElement("p");
-        coinData.innerText = obj[key];
+        coinData.innerText = [key] + ": " + " " + obj[key];
         divDisplay.appendChild(coinData);
       }
+      divDisplay.appendChild(divDisplayMoreInfoCoin);
     }
     const moreInfoButton = document.createElement("button");
     moreInfoButton.classList.add("more-info-btn");
@@ -55,11 +60,16 @@ function createCoinCard(coinArray, parameter) {
     moreInfoButton.classList.add(obj.id);
     moreInfoButton.innerHTML = "more info";
     divDisplay.appendChild(moreInfoButton);
-    moreInfoButton.addEventListener("click", function () {
-      //   console.log(index);
+    moreInfoButton.addEventListener("click",async function () {
+   
+      coinMoreInfoData = await getMoreCoinInfo(index);
+      // let testDiv = document.createElement("div")
+      // testDiv.innerText="this is test"
+      // divDisplayMoreInfoCoin.appendChild(testDiv)
 
-      let moreCoinInfo = getMoreCoinInfo(index);
-      console.log(moreCoinInfo);
+      displayMoreInfoCoin(coinMoreInfoData, divDisplayMoreInfoCoin);
+     
+      // console.log(coinMoreInfoData);
     });
 
     const selectButton = document.createElement("input");
@@ -101,3 +111,26 @@ async function getMoreCoinInfo(coinId) {
 //     console.log(id);
 //   });
 // }
+
+function displayMoreInfoCoin(coinObj, parameter2) {
+  let divMoreInfoDisplay = document.createElement("div");
+  divMoreInfoDisplay.classList.add("coin-div-more-info");
+  
+  for (const key in coinObj) {
+    if (key === "market_data") {
+      const coinData = document.createElement("p");
+      coinData.innerHTML = coinObj[key].current_price.usd+"$";
+      divMoreInfoDisplay.appendChild(coinData);
+      
+    }
+    else if(key==="image"){
+
+      const coinImage=document.createElement("img");
+      coinImage.src=coinObj[key].small;
+      divMoreInfoDisplay.appendChild(coinImage)
+    }
+  }
+
+
+  parameter2.appendChild(divMoreInfoDisplay);
+}
