@@ -3,7 +3,6 @@ let myDisplayArea = document.getElementById("display-area");
 let mySearchButton = document.querySelector(".search-button");
 // *צריכה להוסיף את הקישורים לטאבים בראש הדף
 
-
 // *define parameters
 let allCoinsArray = [];
 let coinsDataFromStorage = ``;
@@ -42,17 +41,18 @@ function getCoinsDataFromStorage() {
 function createCoinCard(coinArray, parameter) {
   coinArray.forEach((obj) => {
     let divDisplay = document.createElement("div");
-    divDisplay.classList.add("coin-div-info");
-    let divDisplayMoreInfoCoin = document.createElement("div");
-    divDisplayMoreInfoCoin.classList.add("coin-more-info-display");
+    divDisplay.classList.add("card");
+    let divDisplayBody = document.createElement("div");
+    divDisplayBody.classList.add("card-body");
 
     for (const key in obj) {
       if (key !== "id") {
         const coinData = document.createElement("p");
         coinData.innerText = [key] + ": " + " " + obj[key];
-        divDisplay.appendChild(coinData);
+        coinData.classList.add("card-title")
+        divDisplayBody.appendChild(coinData);
       }
-      divDisplay.appendChild(divDisplayMoreInfoCoin);
+      divDisplay.appendChild(divDisplayBody);
     }
     const moreInfoButton = document.createElement("button");
     moreInfoButton.classList.add("more-info-btn");
@@ -61,20 +61,17 @@ function createCoinCard(coinArray, parameter) {
     moreInfoButton.classList.add(obj.id);
     moreInfoButton.innerHTML = "more info";
     divDisplay.appendChild(moreInfoButton);
+
     moreInfoButton.addEventListener("click", async function () {
       coinMoreInfoData = await getMoreCoinInfo(index);
       // let testDiv = document.createElement("div")
       // testDiv.innerText="this is test"
       // divDisplayMoreInfoCoin.appendChild(testDiv)
-
-      displayMoreInfoCoin(coinMoreInfoData, divDisplayMoreInfoCoin);
+      // divDisplay.setAttribute("height", "400px");
+      displayMoreInfoCoin(coinMoreInfoData, divDisplay);
 
       // console.log(coinMoreInfoData);
     });
-
-    
-
-   
 
     const selectButton = document.createElement("input");
     selectButton.type = "checkbox";
@@ -102,11 +99,11 @@ async function getMoreCoinInfo(coinId) {
   return coinMoreData;
 }
 
+// *function for more info button
 
-// added this
 function displayMoreInfoCoin(coinObj, parameter2) {
   let divMoreInfoDisplay = document.createElement("div");
-  divMoreInfoDisplay.classList.add("coin-div-more-info");
+  divMoreInfoDisplay.classList.add("card");
 
   for (const key in coinObj) {
     if (key === "market_data") {
@@ -115,6 +112,7 @@ function displayMoreInfoCoin(coinObj, parameter2) {
       divMoreInfoDisplay.appendChild(coinData);
     } else if (key === "image") {
       const coinImage = document.createElement("img");
+      coinImage.classList.add("card-img-top");
       coinImage.src = coinObj[key].small;
       divMoreInfoDisplay.appendChild(coinImage);
     }
