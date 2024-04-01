@@ -1,16 +1,15 @@
+// *document connections
 let myDisplayArea = document.getElementById("display-area");
 let mySearchButton = document.querySelector(".search-button");
+// *צריכה להוסיף את הקישורים לטאבים בראש הדף
 
+// *define parameters
 let allCoinsArray = [];
 let coinsDataFromStorage = ``;
 let allCoinsArrayFromStorage = [];
 let coinMoreInfoData = {};
 
-async function getAllCoinsData() {
-  let response = await fetch("https://api.coingecko.com/api/v3/coins/list");
-  let allCoinsData = await response.json();
-  return allCoinsData.slice(0, 100);
-}
+// *main async function when loading page
 
 document.addEventListener("DOMContentLoaded", async function () {
   allCoinsArray = getCoinsDataFromStorage();
@@ -19,13 +18,10 @@ document.addEventListener("DOMContentLoaded", async function () {
     keepCoinDataLocalStorage(allCoinsArray);
   }
 
-  // console.log(allCoinsArray);
-
-  // allCoinsArrayFromStorage = getCoinsDataFromStorage();לא צריך
-
   createCoinCard(allCoinsArray, myDisplayArea);
 });
 
+// *function to save to local storage and one to retrieve
 
 function keepCoinDataLocalStorage(array) {
   const myCoinsToString = JSON.stringify(array);
@@ -37,6 +33,10 @@ function getCoinsDataFromStorage() {
   coinDataBack = JSON.parse(coinsDataFromStorage);
   return coinDataBack;
 }
+
+// *function to create a coin card  and button
+// צריכה להפריד ולעשות פונקציה לכפתור בנפרד
+// צריכה גם להפריד וליצור צקבוקס או טוגלה בנפרד
 
 function createCoinCard(coinArray, parameter) {
   coinArray.forEach((obj) => {
@@ -56,19 +56,18 @@ function createCoinCard(coinArray, parameter) {
     const moreInfoButton = document.createElement("button");
     moreInfoButton.classList.add("more-info-btn");
     let index = obj.id;
-    console.log(index);
+    // console.log(index);
     moreInfoButton.classList.add(obj.id);
     moreInfoButton.innerHTML = "more info";
     divDisplay.appendChild(moreInfoButton);
-    moreInfoButton.addEventListener("click",async function () {
-   
+    moreInfoButton.addEventListener("click", async function () {
       coinMoreInfoData = await getMoreCoinInfo(index);
       // let testDiv = document.createElement("div")
       // testDiv.innerText="this is test"
       // divDisplayMoreInfoCoin.appendChild(testDiv)
 
       displayMoreInfoCoin(coinMoreInfoData, divDisplayMoreInfoCoin);
-     
+
       // console.log(coinMoreInfoData);
     });
 
@@ -79,20 +78,14 @@ function createCoinCard(coinArray, parameter) {
     divDisplay.appendChild(selectButton);
     parameter.appendChild(divDisplay);
   });
+}
 
-  //  let myMoreCoinData=document.querySelector("."+ obj.id)
-  //  myMoreCoinData.addEventListener("click",function () {
-  //     console.log(obj.id)
-  //  })
+// *function fetch all coin data+function to fetch one coin more data
 
-  //   let myMoreInfoButtons = document.querySelectorAll(".more-info-btn");
-  //   myMoreInfoButtons.forEach((button) => {
-  //     button.addEventListener("click", function () {
-  //       console.log("11111");
-
-  //   coinMoreInfoData = getMoreCoinInfo(obj.id);
-  // });
-  //   });
+async function getAllCoinsData() {
+  let response = await fetch("https://api.coingecko.com/api/v3/coins/list");
+  let allCoinsData = await response.json();
+  return allCoinsData.slice(0, 100);
 }
 
 async function getMoreCoinInfo(coinId) {
@@ -103,34 +96,25 @@ async function getMoreCoinInfo(coinId) {
   console.log(coinMoreData);
   return coinMoreData;
 }
-// getMoreCoinInfo("0xaiswap")
 
-// function addEventListenerToButton(id) {
-//   let newbutton = document.querySelector("." + id);
-//   newbutton.addEventListener("click", function () {
-//     console.log(id);
-//   });
-// }
+// *function for more info button
 
 function displayMoreInfoCoin(coinObj, parameter2) {
   let divMoreInfoDisplay = document.createElement("div");
   divMoreInfoDisplay.classList.add("coin-div-more-info");
-  
+
   for (const key in coinObj) {
     if (key === "market_data") {
       const coinData = document.createElement("p");
-      coinData.innerHTML = coinObj[key].current_price.usd+"$";
+      coinData.innerHTML = coinObj[key].current_price.usd + "$";
       divMoreInfoDisplay.appendChild(coinData);
-      
-    }
-    else if(key==="image"){
-
-      const coinImage=document.createElement("img");
-      coinImage.src=coinObj[key].small;
-      divMoreInfoDisplay.appendChild(coinImage)
+    } else if (key === "image") {
+      const coinImage = document.createElement("img");
+      coinImage.classList.add("card-img-top");
+      coinImage.src = coinObj[key].small;
+      divMoreInfoDisplay.appendChild(coinImage);
     }
   }
-
 
   parameter2.appendChild(divMoreInfoDisplay);
 }
