@@ -41,15 +41,15 @@ function getCoinsDataFromStorage() {
 function createCoinCard(coinArray, parameter) {
   coinArray.forEach((obj) => {
     let divDisplay = document.createElement("div");
-    divDisplay.classList.add("card");
+    divDisplay.classList.add("card","shadow-lg");
     let divDisplayBody = document.createElement("div");
     divDisplayBody.classList.add("card-body");
 
     for (const key in obj) {
       if (key !== "id") {
-        const coinData = document.createElement("p");
+        const coinData = document.createElement("li");
         coinData.innerText = [key] + ": " + " " + obj[key];
-        coinData.classList.add("card-title")
+        coinData.classList.add("card-text");
         divDisplayBody.appendChild(coinData);
       }
       divDisplay.appendChild(divDisplayBody);
@@ -58,26 +58,31 @@ function createCoinCard(coinArray, parameter) {
     moreInfoButton.classList.add("more-info-btn");
     let index = obj.id;
     // console.log(index);
-    moreInfoButton.classList.add(obj.id);
+    moreInfoButton.classList.add(index);
+    // moreInfoButton.setAttribute("type", "button");
+    // moreInfoButton.setAttribute("data-bs-toggle", "collapse");
+    // moreInfoButton.setAttribute("data-bs-target", `#collapse-${index}`);
+    // moreInfoButton.setAttribute("aria-expanded", "false");
+    // moreInfoButton.setAttribute("aria-controls", `collapse-${index}`);
     moreInfoButton.innerHTML = "more info";
     divDisplay.appendChild(moreInfoButton);
 
     moreInfoButton.addEventListener("click", async function () {
-      coinMoreInfoData = await getMoreCoinInfo(index);
-      // let testDiv = document.createElement("div")
-      // testDiv.innerText="this is test"
-      // divDisplayMoreInfoCoin.appendChild(testDiv)
-      // divDisplay.setAttribute("height", "400px");
-      displayMoreInfoCoin(coinMoreInfoData, divDisplay);
+      const coinMoreInfoData = await getMoreCoinInfo(index);
 
+      displayMoreInfoCoin(coinMoreInfoData, divDisplayBody, moreInfoButton);
+      moreInfoButton.style.display = "none";
       // console.log(coinMoreInfoData);
     });
 
     const selectButton = document.createElement("input");
     selectButton.type = "checkbox";
     selectButton.classList.add("toggle-switch-btn");
-
+    selectButton.classList.add(obj.id);
+    selectButton.setAttribute("role", "switch");
+    selectButton.setAttribute("id", "flexSwitchCheckDefault");
     divDisplay.appendChild(selectButton);
+
     parameter.appendChild(divDisplay);
   });
 }
@@ -101,22 +106,37 @@ async function getMoreCoinInfo(coinId) {
 
 // *function for more info button
 
-function displayMoreInfoCoin(coinObj, parameter2) {
+function displayMoreInfoCoin(coinObj, parameter2, button) {
   let divMoreInfoDisplay = document.createElement("div");
-  divMoreInfoDisplay.classList.add("card");
+  divMoreInfoDisplay.classList.add("card-body");
 
   for (const key in coinObj) {
     if (key === "market_data") {
       const coinData = document.createElement("p");
       coinData.innerHTML = coinObj[key].current_price.usd + "$";
       divMoreInfoDisplay.appendChild(coinData);
+      const coinDataEur = document.createElement("p");
+      coinDataEur.innerHTML = coinObj[key].current_price.eur + "€";
+      divMoreInfoDisplay.appendChild(coinDataEur);
     } else if (key === "image") {
       const coinImage = document.createElement("img");
       coinImage.classList.add("card-img-top");
-      coinImage.src = coinObj[key].small;
+      coinImage.src = coinObj[key].large;
       divMoreInfoDisplay.appendChild(coinImage);
     }
   }
+  const deleteButton = document.createElement("button");
+  deleteButton.classList.add("btn", "btn-danger");
+  deleteButton.innerHTML = "X";
+  divMoreInfoDisplay.appendChild(deleteButton);
+
+  // Add event listener to delete button
+  deleteButton.addEventListener("click", function () {
+    // Remove the additional info and the delete button
+    divMoreInfoDisplay.remove();
+    deleteButton.remove();
+    button.style.display = "block";
+  });
 
   parameter2.appendChild(divMoreInfoDisplay);
 }

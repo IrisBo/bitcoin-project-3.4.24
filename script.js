@@ -67,7 +67,7 @@ function createCoinCard(coinArray, parameter) {
       // testDiv.innerText="this is test"
       // divDisplayMoreInfoCoin.appendChild(testDiv)
 
-      displayMoreInfoCoin(coinMoreInfoData, divDisplayMoreInfoCoin);
+      displayMoreInfoCoin(coinMoreInfoData, divDisplay);
 
       // console.log(coinMoreInfoData);
     });
@@ -79,10 +79,15 @@ function createCoinCard(coinArray, parameter) {
     const selectButton = document.createElement("input");
     selectButton.type = "checkbox";
     selectButton.classList.add("toggle-switch-btn");
+    selectButton.classList.add(obj.id);
+    selectButton.setAttribute("role", "switch");
+    selectButton.setAttribute("id", "flexSwitchCheckDefault") 
 
     divDisplay.appendChild(selectButton);
     parameter.appendChild(divDisplay);
   });
+
+  
 }
 
 // *function fetch all coin data+function to fetch one coin more data
@@ -113,12 +118,17 @@ function displayMoreInfoCoin(coinObj, parameter2) {
       const coinData = document.createElement("p");
       coinData.innerHTML = coinObj[key].current_price.usd + "$";
       divMoreInfoDisplay.appendChild(coinData);
+      const coinDataEur = document.createElement("p");
+
+      coinDataEur.innerHTML = coinObj[key].current_price.eur + "@";
+      divMoreInfoDisplay.appendChild(coinDataEur);
+      
     } else if (key === "image") {
       const coinImage = document.createElement("img");
       coinImage.src = coinObj[key].small;
       divMoreInfoDisplay.appendChild(coinImage);
     }
   }
-
+  parameter2.setAttribute("height", "400px");
   parameter2.appendChild(divMoreInfoDisplay);
 }
