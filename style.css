@@ -2,30 +2,32 @@ body {
   background-color: black;
   display: inline;
 }
-h1 {
-  color: bisque;
+.Page-headline {
+  color: rgb(199, 110, 0);
 }
+
 .top-header {
   display: flex;
-  color: bisque;
+  color: rgb(199, 110, 0);
 }
 
 .coin-div-info {
   padding: 5px;
   margin: 5px;
-  border: double 2px black;
+  border: double 3px rgb(233, 136, 18);
   height: 120px;
-  width: 100px;
+  width: 80px;
   border-radius: 2px;
   align-content: center;
-  background-color: rgba(249, 229, 204, 0.896);
   position: relative;
 }
 
 #display-area {
   display: flex;
   flex-wrap: wrap;
+  padding: 5px;
 }
+
 .parallax {
   background-image: url("https://fstarcapital.com/wp-content/uploads/2021/06/btc-6272691_1920.jpg");
   min-height: 200px;
@@ -36,7 +38,7 @@ h1 {
 }
 
 .more-info-btn {
-  background-color: chocolate;
+  background-color: rgb(247, 175, 124);
   border-radius: 5px;
   position: absolute;
   bottom: 5px;
@@ -72,13 +74,21 @@ h1 {
   border-top: none;
 } */
 
-.coin-div-more-info {
-  background-color:rgb(255, 255, 255);
-  height: 100px;
-  width: 100px;
-  color: #000;
-  margin:2px;
-  padding: 2px;
-  display:inline-block;
-  align-items: flex-start;
+.card {
+  width: 160px; /* Set the width of each card */
+  height: inherit;
+  margin: 10px; /* Add margin around each card */
+  display: inline-block; /* Display cards inline */
+  vertical-align: top; /* Align cards to the top */
+  display: flex;
+  min-height: 120px;
+  color: black;
+}
+
+.subtitle{
+  color: bisque;
+}
+
+.div-subt{
+  background-color: beige;
 }
