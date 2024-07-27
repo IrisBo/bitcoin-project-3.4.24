@@ -91,14 +91,14 @@ function createCoinCard(coinArray, parameter) {
         }
           else{
         selectedCoins.push(index);
-        alert("selected"+ index);
+        // alert("selected"+ index);
           }
       } else {
         const coinIndex = selectedCoins.indexOf(index);
         if (coinIndex > -1) {
           selectedCoins.splice(coinIndex, 1); // Remove index from the global array
         }
-        alert("not selected");
+        // alert("not selected");
       }
       console.log(selectedCoins);
 
