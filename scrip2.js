@@ -126,11 +126,7 @@ function displaySelectedCoins(coins) {
       listItem.textContent = `Coin ${coin}`;
       const removeButton = document.createElement('button');
       removeButton.textContent = 'X';
-      removeButton.style.color = 'red';
-      removeButton.style.marginLeft = '10px';
-      removeButton.style.border = 'none';
-      removeButton.style.backgroundColor = 'transparent';
-      removeButton.style.cursor = 'pointer';
+      removeButton.classList.add("remove-from-list");
 
     removeButton.addEventListener('click', function() {
       const coinIndex = selectedCoins.indexOf(coin);

@@ -28,13 +28,13 @@ body {
   padding: 5px;
 }
 
-.more-info-btn,
+/* .more-info-btn,
 .delete-btn {
   position: absolute;
   bottom: 2px;
   left: 2px;
   padding: 0.25rem 0.5rem;
-}
+} */
 .more-info-btn,
 .delete-btn {
   position: absolute;
@@ -82,28 +82,33 @@ body {
   transition: background-color 0.3s, color 0.3s, box-shadow 0.3s; /* Smooth transition for hover effects */
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow effect */
 }
-
 .display-in-chart-button {
-  background-color: #28a745; /* Bootstrap success green color */
-  color: #fff; /* White text */
+  color: #000000; /* White text */
+  background: linear-gradient(to right, #ffffff 5%, #87CEEB 95%); /* Gradient from white to light blue */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add subtle shadow */
+  transition: background 0.3s ease, box-shadow 0.3s ease;
 }
 
 .display-in-chart-button:hover {
-  background-color: #218838; /* Darker green on hover */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Stronger shadow on hover */
+  background: linear-gradient(to right, #0056b3, #ffffff); /* Invert gradient on hover */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); 
+  font-weight: bold;/* Darker shadow on hover */
 }
 
 .save-button {
-  background-color: #ffc107; /* Bootstrap warning yellow color */
-  color: #000; /* Black text for contrast */
+  color: #000000; /* White text */
+  background: linear-gradient(to right, #ffffff 5%, #d4dc9c 95%); /* Gradient from white to light blue */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add subtle shadow */
+  transition: background 0.3s ease, box-shadow 0.3s ease;
 }
 
 .save-button:hover {
-  background-color: #e0a800; /* Darker yellow on hover */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Stronger shadow on hover */
+background: linear-gradient(to right, #d4dc9c, #ffffff); /* Invert gradient on hover */
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); 
+  font-weight: bold;/* Darker shadow on hover */
 }
 
- .remove-from-list{
+.remove-from-list{
   position: absolute;
   left:400px;
   color: #e74c3c; /* Use a modern red color */
@@ -128,7 +133,6 @@ body {
   border-color: #c0392b; 
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); 
 }
-
 
 
 .form-switch {
@@ -178,7 +182,7 @@ body {
   padding-top: 60px;
 }
 .modal-content {
-  background-image: url("/images/white-bitcoin-cryptocurrency-coin-against-grey.avif");
+  background-image: url("/images/display\ white\ cut.jpg");
   background-size: cover;
   background-position: center;
   margin: 5% auto; /* 5% from the top and centered */
