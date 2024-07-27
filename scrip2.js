@@ -197,7 +197,6 @@ window.onclick = function(event) {
 async function getAllCoinsData() {
   let response = await fetch("https://api.coingecko.com/api/v3/coins/list");
   let allCoinsData = await response.json();
-  // return allCoinsData.slice(0, 100);
   return allCoinsData;
 }
 
