@@ -183,8 +183,8 @@ background: linear-gradient(to right, #d4dc9c, #ffffff); /* Invert gradient on h
 }
 .modal-content {
   background-image: url("/images/display-white-cut.jpg");
-  background-size:auto;
-  background-position:left;
+  background-size:cover;
+  background-position:center;
   margin: 5% auto; /* 5% from the top and centered */
   padding: 20px;
   border: 1px solid #888;
