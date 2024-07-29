@@ -1,6 +1,6 @@
 .parallax {
   height: 100vh;
-  background-image: url("/images/white-bitcoin-cryptocurrency-coin-against-grey.avif");
+  background-image: url("https://img.freepik.com/premium-photo/white-bitcoin-cryptocurrency-coin-against-grey-background-d-rendering_601748-3476.jpg?w=1060");
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
@@ -182,9 +182,9 @@ background: linear-gradient(to right, #d4dc9c, #ffffff); /* Invert gradient on h
   padding-top: 60px;
 }
 .modal-content {
-  background-image: url("/images/display\ white\ cut.jpg");
-  background-size: cover;
-  background-position: center;
+  background-image: url("https://img.freepik.com/premium-photo/white-bitcoin-cryptocurrency-coin-against-grey-background-d-rendering_601748-3784.jpg?w=1060");
+  background-size:auto;
+  background-position:left;
   margin: 5% auto; /* 5% from the top and centered */
   padding: 20px;
   border: 1px solid #888;
