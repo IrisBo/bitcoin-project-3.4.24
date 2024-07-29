@@ -2,7 +2,7 @@
 const myDisplayArea = document.getElementById("display-area");
 const mySearchButton = document.querySelector(".search-button");
 const mySearchInput = document.querySelector(".search-input");
-const myDisplayChartsArea= document.querySelector(".chartsDisplay");
+const myDisplayChartsArea= document.querySelector("#coinChart");
 
 
 // *define parameters
@@ -67,6 +67,7 @@ function createCoinCard(coinArray, parameter) {
     }
 
     let index = obj.id;
+    let coinName= obj.symbol;
 
     const moreInfoButton = createButton(index, divDisplay);
     moreInfoButton.addEventListener("click", async function () {
@@ -74,7 +75,6 @@ function createCoinCard(coinArray, parameter) {
 
       displayMoreInfoCoin(coinMoreInfoData, divDisplayBody, moreInfoButton);
       moreInfoButton.style.display = "none";
-      // console.log(coinMoreInfoData);
     });  
    
     let isSelected = false;
@@ -90,17 +90,14 @@ function createCoinCard(coinArray, parameter) {
           alert("No more selections allowed. " + maxSelections + " coins.")
         }
           else{
-        selectedCoins.push(index);
-        // alert("selected"+ index);
+        selectedCoins.push(coinName);
           }
       } else {
-        const coinIndex = selectedCoins.indexOf(index);
+        const coinIndex = selectedCoins.indexOf(coinName);
         if (coinIndex > -1) {
           selectedCoins.splice(coinIndex, 1); // Remove index from the global array
         }
-        // alert("not selected");
       }
-      console.log(selectedCoins);
 
       if (selectedCoins.length === maxSelections) {
         displaySelectedCoins(selectedCoins);
@@ -149,25 +146,46 @@ function displaySelectedCoins(coins) {
   saveButton.classList.add("save-button");
   saveButton.addEventListener('click', function() {
     promptRetrieveSavedData()
-    console.log(selectedCoins);
     keepCoinDataLocalStorage("selectedCoins",selectedCoins);
     alert("Selections saved!");
   });
+ 
   const displayCoinsToChartsButton= document.createElement('button');
   displayCoinsToChartsButton.textContent= "Display in charts";
   displayCoinsToChartsButton.classList.add("display-in-chart-button");
-  displayCoinsToChartsButton.addEventListener('click',async function () {
-    let selectedCoinsData = await getAllCoinsForCharts(selectedCoins)
-    console.log(selectedCoinsData)
-    let test= document.createElement('p');
-    testInner.textContent=selectedCoinsData;
-    myDisplayChartsArea.appendChild(test)
+
+  // creating the display chart functions and buttons
+  displayCoinsToChartsButton.addEventListener('click',async function() { 
+
+    if (fetchInterval) {
+      clearInterval(fetchInterval);
   }
-  )
+    let selectedCoinsData = await getAllCoinsForCharts(selectedCoins);
+    updateChartData(selectedCoinsData);
+    displayCoinDataInChart();
+
+  fetchInterval = setInterval(async function() {
+    const selectedCoinsData = await getAllCoinsForCharts(selectedCoins);
+    updateChartData(selectedCoinsData);
+    displayCoinDataInChart();
+}, 2000);
+
+const modal = document.getElementById("myModal");
+if (modal) {
+  modal.style.display = "none";
+}
+
+// Switch to the charts tab
+const chartsTabButton = document.getElementById("contact-tab");
+  if (chartsTabButton) {
+    chartsTabButton.click(); // Trigger the tab switch programmatically
+  }
+});
+
   selectedCoinsList.appendChild(displayCoinsToChartsButton);
   selectedCoinsList.appendChild(saveButton);
 
-  // Show the modal
+  // Show the coins modal
   const modal = document.getElementById("myModal");
   modal.style.display = "block";
 }
@@ -244,6 +262,8 @@ function displayMoreInfoCoin(coinObj, parameter2, button) {
   parameter2.appendChild(divMoreInfoDisplay);
 }
 
+
+//function for search button/filter
 function filterCards(searchQuery) {
   const cards = document.querySelectorAll(".card");
 
@@ -311,23 +331,94 @@ function promptRetrieveSavedData() {
 
 // bonus
 
-"https://min-api.cryptocompare.com/data/pricemulti?fsyms=ETH,BTC&tsyms=USD"
-"myDisplayChartsArea"
-"selectedCoins=coinsArray"
-// myDisplayChartsButton
 
 async function getAllCoinsForCharts(coinsArray) {
-  coinsId=coinsArray.join(',');
-  let response = await fetch(`https://min-api.cryptocompare.com/data/pricemulti?fsyms=${coinsId}&tsyms=USD`);
+  coinsAllNamesString=coinsArray.join(',');
+  console.log(coinsAllNamesString);
+  let response = await fetch(`https://min-api.cryptocompare.com/data/pricemulti?fsyms=${coinsAllNamesString}&tsyms=USD`);
   let selectedCoinsData = await response.json();
   console.log(selectedCoins);
   return selectedCoinsData;
 }
 
-// myDisplayChartsButton.addEventListener ("click", async function () {
-//   let selectedCoins= getAllCoinsForCharts(selectedCoins)
-//   console.log(selectedCoins)
-// }
 
-  
-// )
+let chart;
+let fetchInterval;
+const chartData = {};
+
+
+function displayCoinDataInChart() {
+  const ctx = document.getElementById('coinChart').getContext('2d');
+
+  // Prepare datasets for each coin
+  const datasets = Object.keys(chartData).map(coin => ({
+      label: coin,
+      data: chartData[coin].data,
+      fill: false,
+      borderColor: chartData[coin].borderColor,
+      tension: 0.1
+  }));
+
+  // Destroy the existing chart instance if it exists
+  if (chart) {
+      chart.destroy();
+  }
+
+  // Create and render the multi-line chart
+  chart = new Chart(ctx, {
+      type: 'line',
+      data: {
+          labels: Array.from({ length: datasets[0]?.data.length || 0 }, (_, i) => i + 1), // X-axis labels as numerical indices
+          datasets: datasets // array of datasets for each coin
+      },
+      options: {
+          scales: {
+              x: {
+                  title: {
+                      display: true,
+                      text: 'Time'
+                  }
+              },
+              y: {
+                  title: {
+                      display: true,
+                      text: 'Price (USD)'
+                  }
+              }
+          },
+          plugins: {
+              legend: {
+                  display: true,
+                  position: 'top'
+              }
+          }
+      }
+  });
+}
+
+
+// Function to get a random color for the chart lines
+function getRandomColor() {
+  const letters = '0123456789ABCDEF';
+  let color = '#';
+  for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+  }
+  return color;
+}
+
+
+
+
+
+function updateChartData(newData) {
+  Object.keys(newData).forEach(coin => {
+      const coinData = newData[coin].USD;
+      if (!chartData[coin]) {
+          chartData[coin] = { data: [], borderColor: getRandomColor() };
+      }
+      chartData[coin].data.push(coinData);
+  });
+}
+
+
