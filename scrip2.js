@@ -391,7 +391,8 @@ function displayCoinDataInChart() {
                   display: true,
                   position: 'top'
               }
-          }
+          },
+          maintainAspectRatio: false 
       }
   });
 }
