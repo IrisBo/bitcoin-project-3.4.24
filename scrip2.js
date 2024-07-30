@@ -141,14 +141,15 @@ function displaySelectedCoins(coins) {
   selectedCoinsList.appendChild(list);
 
   // Create and append the save button below the list
-  const saveButton = document.createElement('button');
-  saveButton.textContent = 'Save Selection';
-  saveButton.classList.add("save-button");
-  saveButton.addEventListener('click', function() {
-    promptRetrieveSavedData()
-    keepCoinDataLocalStorage("selectedCoins",selectedCoins);
-    alert("Selections saved!");
-  });
+
+  // const saveButton = document.createElement('button');
+  // saveButton.textContent = 'Save Selection';
+  // saveButton.classList.add("save-button");
+  // saveButton.addEventListener('click', function() {
+  //   // promptRetrieveSavedData()
+  //   // keepCoinDataLocalStorage("selectedCoins",selectedCoins);
+  //   // alert("Selections saved!");
+  // });
  
   const displayCoinsToChartsButton= document.createElement('button');
   displayCoinsToChartsButton.textContent= "Display in charts";
@@ -156,6 +157,7 @@ function displaySelectedCoins(coins) {
 
   // creating the display chart functions and buttons
   displayCoinsToChartsButton.addEventListener('click',async function() { 
+    keepCoinDataLocalStorage("selectedCoins",selectedCoins);
 
     if (fetchInterval) {
       clearInterval(fetchInterval);
@@ -183,7 +185,7 @@ const chartsTabButton = document.getElementById("contact-tab");
 });
 
   selectedCoinsList.appendChild(displayCoinsToChartsButton);
-  selectedCoinsList.appendChild(saveButton);
+  // selectedCoinsList.appendChild(saveButton);
 
   // Show the coins modal
   const modal = document.getElementById("myModal");
